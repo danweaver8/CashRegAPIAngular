@@ -1,0 +1,32 @@
+[
+    {
+        "code": "00011",
+        "price": 20.00,  
+        "name": "Shirt", 
+        "label": "Shirt"
+    },
+    {
+        "code": "00012",
+        "price": 50.00,
+        "name": "Pants",
+        "label": "Pants"
+    },
+    {
+        "code": "00013",
+        "price": 25.00,
+        "name": "Belt",
+        "label": "Belt"
+    },
+    {
+        "code": "00014",
+        "price": 70.00,
+        "name": "Shoes",
+        "label": "Shoes"
+    },
+    {
+        "code": "00015",
+        "price": 10.00,
+        "name": "Socks",
+        "label": "Socks"
+    }
+]

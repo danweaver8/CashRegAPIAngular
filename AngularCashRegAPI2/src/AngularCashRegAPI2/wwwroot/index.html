@@ -1,0 +1,208 @@
+﻿<html ng-app="heroesApp">
+<head>
+    <meta name="viewport" content="width=device-width">
+    <script type="text/javascript" src="lib/angular/angular.js"></script>
+    <script type="text/javascript" src="lib/angular-route/angular-route.js"></script>
+    <script type="text/javascript" src="lib/angular-animate/angular-animate.js"></script>
+    <script type="text/javascript" src="lib/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="lib/jquery-ui/jquery-ui.js"></script>
+    <script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.js"></script>
+
+
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
+    <!--<script type="text/javascript" src="js/cashReg.js"></script>
+    <script type="text/javascript" src="js/modalpopup.js"></script>-->
+
+    <link rel="stylesheet" href="css/site.css">
+    <script src="app.js"></script>
+</head>
+<body ng-cloak>
+    <div ng-controller="dashboardController as vm" class="container-fluid">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <p class="panel-title total-amount">Total: {{vm.totalCost | currency}}</p>
+                <p class="panel-title item-display">Item: <span id="productSelectedName" class="totalCost"> {{vm.productSelected.name}}</span></p>
+            </div>
+            <div class="panel-body">
+                <form name="cashRegister" class="form-horizontal">
+                    <!-- Product Selector -->
+                    <div class="form-group">
+                        <div class="col-md-3 product-inputs-left">
+                            <select name="categorySelector" id="categorySelector" ng-change="vm.getProducts()" ng-model=vm.categorySelected class="form-control input-lg" type="text" ng-options="category for category in vm.categoryList"></select>
+                            <span class="help-block help-block-label">Category item</span>
+                        </div>
+                        <div class="col-md-3 product-inputs-left">
+                            <select name="productSelector" id="productSelector" ng-disabled="!vm.productList" ng-model=vm.productSelected class="form-control input-lg" type="text" ng-options="product.name for product in vm.productList"></select>
+                            <span class="help-block help-block-label">Type item</span>
+                        </div>
+                        <div class="col-md-2 product-inputs">
+                            <div name="productUnitCost" id="productUnitCost" class="form-control input-lg">{{vm.productSelected.price | currency}}</div>
+
+                            <span class="help-block help-block-label">Unit Cost</span>
+                        </div>
+                        <div class="col-md-2 product-inputs">
+
+                            <select name="productQuantity" id="productQuantity" ng-model="vm.productQuantity" class="form-control input-lg" required>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                            <span class="help-block help-block-label">Choose Quantity</span>
+                        </div>
+                        <div class="col-md-2 product-inputs-right">
+                            <button class="btn btn-lg btn-primary btn-block" id="btnAddProduct" ng-click="vm.addItem()" ng-disabled="vm.reqQuantity() || vm.productCheck()">
+                                ADD
+                            </button>
+                            <span class="help-block help-block-label">Add to Cart</span>
+                        </div>
+                    </div>
+                </form>
+                <!-- Cart Contents -->
+                <div class="well stuff-to-show" id="cartDisplay" ng-show="vm.scannedItems.length > 0">
+                    <table id="cartTable" class="table table-condensed table-striped table-responsive table-borderless">
+                        <thead>
+                            <tr>
+                                <th colspan="5" style="font-size:30; text-align:center; border:0; padding:0"><span>{{vm.companyName}}</span></th>
+                            </tr>
+                            <tr>
+                                <th colspan="5" style="text-align:center; border:0; padding:0"><span>{{vm.companyCity}}</span></th>
+                            </tr>
+                            <tr>
+                                <th colspan="5" style="text-align:center; border:0; padding:0"><span>{{vm.companyPhone | tel}}</span></th>
+                            </tr>
+                            <tr>
+                                <th colspan="5" style="text-align:center; border:0; padding:0">Expires: {{vm.expirationDate}}</th>
+                            </tr>
+                            <tr>
+                                <th colspan="5" style="margin:auto; border:0; text-align:center">
+                                    <img src="img/barcode.png" style="height:70px; width:300px;">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in vm.scannedItems" class="listItem">
+                                <td>{{item.product.code}}</td>
+                                <td>{{item.product.name}} @ {{item.product.price | currency}} ea</td>
+                                <td>{{item.quantity}}</td>
+                                <td>{{item.cost | currency}}</td>
+                                <td><button ng-click="vm.removeItem(item)" style="border:none; background-color:transparent;"><img ng-src="img/deleteitem.png" class="deleteitem" /></button></td>
+                            </tr>
+                            <tr ng-show="vm.discountApplied.length==1">
+                                <td colspan="5" style="font-weight:bold; border-top:1px solid #ddd; color:#ac2925; font-size:Large; padding-bottom:0px">Employee Discount</td>
+                            </tr>
+                            <tr ng-repeat="discountItem in vm.discountApplied" class="listItem">
+                                <td colspan="4" style="border:0; padding-top:0px">{{discountItem.name}} @ {{discountItem.percentDiscount}}%</td>
+                                <td style="border:0"><button ng-click="vm.removeDiscountItem()" style="border:none; background-color:transparent;"><img style="border:0" ng-src="img/deleteitem.png" class="deleteitem" /></button></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" style="font-size:medium; padding-bottom:0; background-color:transparent; font-weight:bold; text-align:center">Sub-Total: {{vm.subTotalCost | currency}}</td>
+                            </tr>
+                            <tr ng-show="vm.stateSelected.tax">
+                                <td colspan="5" style="border: 0; padding:0; background-color:transparent; font-size:medium; font-weight:bold; text-align:center">
+                                    Taxes: {{vm.stateSelected.tax}}% &nbsp;&nbsp;&nbsp;&nbsp; {{vm.stateTaxTotal | currency}}
+                                    <span ng-show="!vm.stateTaxTotal" style="color:red">STATE TAX NOT APPLIED</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" style="border: 0; padding:0; background-color:transparent; font-size:medium; font-weight:bold; text-align:center">Total: {{vm.totalCost | currency}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Admin Functions -->
+                <hr />
+                <span style="font-weight:bold; font-size:medium">Admin Actions</span>
+                <div class="form-group">
+                    <div class="col-md-2 product-inputs-left">
+                        <button class="btn btn-lg btn-warning product-inputs-left" id="btnVoidLastTxn" ng-click="vm.voidLastTxn()">
+                            VOID LAST TRANSACTION
+                        </button>
+                        <span class="help-block help-block-label">Void Last Transaction</span>
+                    </div>
+                    <div class="col-md-2 product-inputs" style="padding-left:15px">
+                        <button class="btn btn-lg btn-danger" id="btnCancelSale" ng-click="vm.cancelSale()">
+                            CANCEL SALE
+                        </button>
+                        <span class="help-block help-block-label">Void Entire Transaction</span>
+                    </div>
+                    <div class="col-md-2 product-inputs">
+                        <select name="employeeSelector" id="employeeSelector" ng-model="vm.employeeSelected" class="form-control input-lg" type="text"
+                                ng-options="employee.name for employee in vm.employeeList" ng-disabled="vm.scannedItems.length == 0"></select>
+                        <span class="help-block help-block-label">Select Employee</span>
+                    </div>
+                    <div class="col-md-2 product-inputs">
+                        <button class="btn btn-lg btn-primary btn-block" id="btnApplyEmpDiscount" ng-disabled="vm.EmployeeSelectCheck()" ng-click="vm.applyEmpDiscount()">
+                            APPLY DISCOUNT
+                        </button>
+                        <span class="help-block help-block-label">Apply Employee Discount</span>
+                    </div>
+                </div>
+                <div style="display:block; clear:both;">
+                    <div class="col-md-2" style="width:10%">
+                        <select name="employeeSelector" id="employeeSelector" ng-model="vm.stateSelected" class="input-lg" type="text"
+                                ng-options="taxes.state for taxes in vm.stateList"></select>
+                        <span class="help-block help-block-label">Select State</span>
+                    </div>
+                    <div ng-show="vm.stateSelected" class="col-md-1 product-inputs animate-show" style="padding-left:20px; width:155px">
+                        <span style="line-height:46px; text-align:center; font-size:24;">{{vm.stateSelected.tax}}%</span>
+                        <span class="help-block help-block-label">Selected state tax</span>
+                    </div>
+                    <div class="col-md-2 listItem" ng-show="!vm.stateSelected" style="padding-left:10px">
+                        <button class="btn btn-lg btn-success btn-block" id="btnApplyStateTax" ng-disabled="true">
+                            ADD STATE TAX
+                        </button>
+                        <span class="help-block help-block-label">Apply State Tax</span>
+                    </div>
+                    <div class="col-md-2 animate-show" ng-show="vm.stateSelected" style="padding-left:10px">
+                        <button class="btn btn-lg btn-success btn-block" id="btnApplyStateTax" ng-click="vm.applyStateTax()">
+                            ADD STATE TAX
+                        </button>
+                        <span class="help-block help-block-label">Apply State Tax</span>
+                    </div>
+                </div>
+                <div style="display:block; clear:both;">
+                    <div ng-controller="modalcontroller">
+                        <div class="col-md-2 product-inputs-left">
+                            <button class="btn btn-lg btn-info product-inputs-left" id="btnVoidLastTxn" ng-click="toggleModal()">
+                                Change Company Information
+                            </button>
+                            <span class="help-block help-block-label">Change Company Name, Company City, Phone Number</span>
+                        </div>
+
+                        <modal title="Company Information" visible="showModal">
+                            <form name="myTestForm" ng-submit="" novalidate>
+                                <div class="form-group">
+                                    <label for="companyName">Company Name</label>
+                                    <input type="text" class="form-control" name="companyName" ng-model="companyName" placeholder="Enter a new name for the Company" ng-minlength="3" ng-model-options="{ updateOn: 'blur' }" required />
+                                    <span style="color:red" ng-show="myTestForm.companyName.$dirty && myTestForm.companyName.$invalid">
+                                        <span ng-show="myTestForm.companyName.$error.required">Company Name is required.</span>
+                                        <span ng-show="myTestForm.companyName.$error.minlength">Company Name must be min 3 char.</span>
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="companyCity">Company City</label>
+                                    <input type="text" class="form-control" name="companyCity" ng-model="companyCity" placeholder="Company City" ng-minlength="3" required ng-model-options="{ updateOn: 'blur' }" />
+                                    <span style="color:red" ng-show="myTestForm.companyCity.$dirty && myTestForm.companyCity.$invalid">
+                                        <span ng-show="myTestForm.companyCity.$error.required">Company City is required.</span>
+                                        <span ng-show="myTestForm.companyCity.$error.minlength">Company City must be min 3 char.</span>
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="companyPhone">Company Phone</label>
+                                    <input class="input-phone form-control" name="companyPhone" type="text" phone-input ng-model="companyPhone" placeholder="Company Phone" required ng-model-options="{ updateOn: 'blur' }" />
+                                    <span style="color:red" ng-show="myTestForm.companyPhone.$dirty && myTestForm.companyPhone.$invalid">
+                                        <span ng-show="myTestForm.companyCity.$error.required">Company City is required.</span>
+                                    </span>
+                                </div>
+                                <button type="submit" class="btn btn-default" ng-click="vm.SetCompanyInfo(companyName, companyCity, companyPhone); toggleModal()" ng-disabled="myTestForm.$invalid">Change</button>
+                            </form>
+                        </modal>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

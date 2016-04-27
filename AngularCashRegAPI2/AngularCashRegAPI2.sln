@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7B0C4515-2EE5-4E07-8B44-20955CF62F90}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0B5290DD-7346-4133-8B61-4A5FB17F15A2}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AngularCashRegAPI2", "src\AngularCashRegAPI2\AngularCashRegAPI2.xproj", "{35D56434-18AC-4BE9-914F-C4061DE7D882}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35D56434-18AC-4BE9-914F-C4061DE7D882}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35D56434-18AC-4BE9-914F-C4061DE7D882}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35D56434-18AC-4BE9-914F-C4061DE7D882}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35D56434-18AC-4BE9-914F-C4061DE7D882}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{35D56434-18AC-4BE9-914F-C4061DE7D882} = {7B0C4515-2EE5-4E07-8B44-20955CF62F90}
+	EndGlobalSection
+EndGlobal
