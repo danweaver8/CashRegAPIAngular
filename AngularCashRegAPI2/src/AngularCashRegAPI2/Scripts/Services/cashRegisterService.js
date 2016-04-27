@@ -5,10 +5,10 @@
         .module('heroesApp')
         .factory('cashRegisterService', cashRegisterService);
 
-    cashRegisterService.$inject = ["$q", "$http", "changeCompanyService"];
+    cashRegisterService.$inject = ["$q", "$http", "changeCompanyService", "Category"];
     //cashRegisterService.$inject = ["$q", "$http"];
 
-    function cashRegisterService($q, $http, changeCompanyService) {
+    function cashRegisterService($q, $http, changeCompanyService, Category) {
         var scannedItems;
         var totalCost = 0.00;
         var subTotalCost = 0.00;
@@ -24,7 +24,7 @@
         var productList = [];
         var employeeList = [];
         var stateList = [];
-        var categoryList = ['Kitchen', 'Electronic', 'Grocery', 'Clothing'];
+        var categoryList = Category.query();//['Kitchen', 'Electronic', 'Grocery', 'Clothing'];
         var employeeDiscountList = [];
         var discountProduct;
         var EMP_DISCOUNT_PRODUCT_CODE;
@@ -43,7 +43,7 @@
 
         //Gets all the products from the JSON files
         function getProducts(category) {
-            switch (category) {
+            switch (category.Name) {
                 case 'Kitchen':
                     var deferred = $q.defer();
                     $http.get('json/Kitchen.json')

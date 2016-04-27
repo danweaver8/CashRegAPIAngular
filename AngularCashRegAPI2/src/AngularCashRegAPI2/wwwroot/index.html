@@ -2,6 +2,7 @@
 <head>
     <meta name="viewport" content="width=device-width">
     <script type="text/javascript" src="lib/angular/angular.js"></script>
+    <script type="text/javascript" src="lib/angular-resource/angular-resource.js"></script>
     <script type="text/javascript" src="lib/angular-route/angular-route.js"></script>
     <script type="text/javascript" src="lib/angular-animate/angular-animate.js"></script>
     <script type="text/javascript" src="lib/jquery/dist/jquery.js"></script>
@@ -28,7 +29,7 @@
                     <!-- Product Selector -->
                     <div class="form-group">
                         <div class="col-md-3 product-inputs-left">
-                            <select name="categorySelector" id="categorySelector" ng-change="vm.getProducts()" ng-model=vm.categorySelected class="form-control input-lg" type="text" ng-options="category for category in vm.categoryList"></select>
+                            <select name="categorySelector" id="categorySelector" ng-change="vm.getProducts()" ng-model=vm.categorySelected class="form-control input-lg" type="text" ng-options="category.Name for category in vm.categoryList"></select>
                             <span class="help-block help-block-label">Category item</span>
                         </div>
                         <div class="col-md-3 product-inputs-left">

@@ -1,4 +1,4 @@
 ﻿(function () {
     'use strict';
-    angular.module('heroesApp', ['ngAnimate', 'ngRoute']);
+    angular.module('heroesApp', ['ngAnimate', 'ngRoute', 'categoryService']);
 })();
