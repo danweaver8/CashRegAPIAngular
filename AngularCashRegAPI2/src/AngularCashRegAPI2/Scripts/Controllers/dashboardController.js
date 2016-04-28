@@ -43,12 +43,7 @@
                 vm.employeeList = result;
             });
 
-            //Get list of states
-            var stateL = cashRegisterService.getStates();
-            stateL.then(function (result) {
-                vm.stateList = result;
-            });
-
+            vm.stateList = cashRegisterService.stateList;
             vm.productSelectedName = "";
             vm.companyCity = cashRegisterService.companyCity;
             vm.companyName = cashRegisterService.companyName;

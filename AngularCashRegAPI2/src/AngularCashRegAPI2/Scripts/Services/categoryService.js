@@ -9,4 +9,12 @@
             });
         }
     ]);
+
+    heroesService.factory('Employees', ['$resource',
+        function ($resource) {
+            return $resource('/api/Employee', {}, {
+                query: { method: 'GET', params: {}, isArray: true }
+            });
+        }
+    ]);
 })();

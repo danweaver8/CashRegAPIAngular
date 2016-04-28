@@ -5,10 +5,10 @@
         .module('heroesApp')
         .factory('cashRegisterService', cashRegisterService);
 
-    cashRegisterService.$inject = ["$q", "$http", "changeCompanyService", "Category"];
+    cashRegisterService.$inject = ["$q", "$http", "changeCompanyService", "Category", "States", "Clothing", "Electronic", "Kitchen", "Grocery", "Employees"];
     //cashRegisterService.$inject = ["$q", "$http"];
 
-    function cashRegisterService($q, $http, changeCompanyService, Category) {
+    function cashRegisterService($q, $http, changeCompanyService, Category, States, Clothing, Electronic, Kitchen, Grocery, Employees) {
         var scannedItems;
         var totalCost = 0.00;
         var subTotalCost = 0.00;
@@ -23,7 +23,7 @@
         var idGenerator = 0;
         var productList = [];
         var employeeList = [];
-        var stateList = [];
+        var stateList = States.query();
         var categoryList = Category.query();//['Kitchen', 'Electronic', 'Grocery', 'Clothing'];
         var employeeDiscountList = [];
         var discountProduct;
@@ -46,48 +46,48 @@
             switch (category.Name) {
                 case 'Kitchen':
                     var deferred = $q.defer();
-                    $http.get('json/Kitchen.json')
-                    .success(function (data) {
+                    Kitchen.query().$promise.then(function (data) {
+                        // success handler
                         productList = data;
                         deferred.resolve(data);
-                    })
-                   .error(function (data) {
-                       deferred.reject(data);
-                   });
+                    }, function (error) {
+                        // error handler
+                        deferred.reject(data);
+                    });
                     return deferred.promise;
                     break;
                 case 'Electronic':
                     var deferred = $q.defer();
-                    $http.get('json/Electronic.json')
-                    .success(function (data) {
+                    Electronic.query().$promise.then(function (data) {
+                        // success handler
                         productList = data;
                         deferred.resolve(data);
-                    })
-                    .error(function (data) {
+                    }, function (error) {
+                        // error handler
                         deferred.reject(data);
                     });
                     return deferred.promise;
                     break;
                 case 'Grocery':
                     var deferred = $q.defer();
-                    $http.get('json/Products.json')
-                    .success(function (data) {
+                    Grocery.query().$promise.then(function (data) {
+                        // success handler
                         productList = data;
                         deferred.resolve(data);
-                    })
-                    .error(function (data) {
+                    }, function (error) {
+                        // error handler
                         deferred.reject(data);
                     });
                     return deferred.promise;
                     break;
                 case 'Clothing':
                     var deferred = $q.defer();
-                    $http.get('json/Clothing.json')
-                    .success(function (data) {
+                    Clothing.query().$promise.then(function(data) {
+                        // success handler
                         productList = data;
                         deferred.resolve(data);
-                    })
-                    .error(function (data) {
+                    }, function(error) {
+                        // error handler
                         deferred.reject(data);
                     });
                     return deferred.promise;
@@ -101,28 +101,14 @@
         //Gets the employees from the JSON file
         function getEmployees() {
             var deferred = $q.defer();
-            $http.get('json/Employees.json')
-             .success(function (data) {
-                 employeeList = data;
-                 deferred.resolve(data);
-             })
-             .error(function (data) {
-                 deferred.reject(data);
-             });
-            return deferred.promise;
-        };
-
-        //Gets the states and taxes
-        function getStates() {
-            var deferred = $q.defer();
-            $http.get('json/States.json')
-             .success(function (data) {
-                 stateList = data;
-                 deferred.resolve(data);
-             })
-             .error(function (data) {
-                 deferred.reject(data);
-             });
+            Employees.query().$promise.then(function (data) {
+                // success handler
+                productList = data;
+                deferred.resolve(data);
+            }, function (error) {
+                // error handler
+                deferred.reject(data);
+            });
             return deferred.promise;
         };
 
@@ -145,7 +131,6 @@
             scannedItems: scannedItems,
             getProducts: getProducts,
             getEmployees: getEmployees,
-            getStates: getStates,
             removeDiscountItem: removeDiscountItem,
             expirationDate: expirationDate,
             companyCity: companyCity,
@@ -243,6 +228,7 @@
             if (this.employeeDiscountList.length == 0) {
                 var employeeDiscountProduct = angular.copy(discountProduct); //Shallow copy
                 employeeDiscountProduct.percentDiscount = employee.discount;
+                employeeDiscountProduct.name = employee.name;
                 this.employeeDiscount = employee.discount;
                 this.employeeDiscountList.push(employeeDiscountProduct);
                 this.totalCost = calculateTotal(this.scannedItems) * ((100 - employee.discount) / 100);

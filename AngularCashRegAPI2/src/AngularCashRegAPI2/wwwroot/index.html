@@ -32,7 +32,7 @@
                             <select name="categorySelector" id="categorySelector" ng-change="vm.getProducts()" ng-model=vm.categorySelected class="form-control input-lg" type="text" ng-options="category.Name for category in vm.categoryList"></select>
                             <span class="help-block help-block-label">Category item</span>
                         </div>
-                        <div class="col-md-3 product-inputs-left">
+                        <div class="col-md-3 product-inputs" style="padding-left:10px">
                             <select name="productSelector" id="productSelector" ng-disabled="!vm.productList" ng-model=vm.productSelected class="form-control input-lg" type="text" ng-options="product.name for product in vm.productList"></select>
                             <span class="help-block help-block-label">Type item</span>
                         </div>
@@ -41,7 +41,7 @@
 
                             <span class="help-block help-block-label">Unit Cost</span>
                         </div>
-                        <div class="col-md-2 product-inputs">
+                        <div class="col-md-2 product-inputs" style="padding-right:10px;">
 
                             <select name="productQuantity" id="productQuantity" ng-model="vm.productQuantity" class="form-control input-lg" required>
                                 <option>1</option>
@@ -65,7 +65,7 @@
                     <table id="cartTable" class="table table-condensed table-striped table-responsive table-borderless">
                         <thead>
                             <tr>
-                                <th colspan="5" style="font-size:30; text-align:center; border:0; padding:0"><span>{{vm.companyName}}</span></th>
+                                <th colspan="5" style="font-size:30px; text-align:center; border:0; padding:0"><span>{{vm.companyName}}</span></th>
                             </tr>
                             <tr>
                                 <th colspan="5" style="text-align:center; border:0; padding:0"><span>{{vm.companyCity}}</span></th>
@@ -117,13 +117,13 @@
                 <span style="font-weight:bold; font-size:medium">Admin Actions</span>
                 <div class="form-group">
                     <div class="col-md-2 product-inputs-left">
-                        <button class="btn btn-lg btn-warning product-inputs-left" id="btnVoidLastTxn" ng-click="vm.voidLastTxn()">
+                        <button class="btn btn-lg btn-warning product-inputs-left" id="btnVoidLastTxn" ng-click="vm.voidLastTxn()" ng-disabled="vm.scannedItems.length == 0">
                             VOID LAST TRANSACTION
                         </button>
                         <span class="help-block help-block-label">Void Last Transaction</span>
                     </div>
                     <div class="col-md-2 product-inputs" style="padding-left:15px">
-                        <button class="btn btn-lg btn-danger" id="btnCancelSale" ng-click="vm.cancelSale()">
+                        <button class="btn btn-lg btn-danger" id="btnCancelSale" ng-click="vm.cancelSale()" ng-disabled="vm.scannedItems.length == 0">
                             CANCEL SALE
                         </button>
                         <span class="help-block help-block-label">Void Entire Transaction</span>
@@ -143,11 +143,11 @@
                 <div style="display:block; clear:both;">
                     <div class="col-md-2" style="width:10%">
                         <select name="employeeSelector" id="employeeSelector" ng-model="vm.stateSelected" class="input-lg" type="text"
-                                ng-options="taxes.state for taxes in vm.stateList"></select>
+                                ng-options="taxes.State for taxes in vm.stateList"></select>
                         <span class="help-block help-block-label">Select State</span>
                     </div>
-                    <div ng-show="vm.stateSelected" class="col-md-1 product-inputs animate-show" style="padding-left:20px; width:155px">
-                        <span style="line-height:46px; text-align:center; font-size:24;">{{vm.stateSelected.tax}}%</span>
+                    <div ng-show="vm.stateSelected" class="col-md-1 product-inputs animate-show" style="padding-left:20px; width:160px">
+                        <span style="line-height:46px; text-align:center; font-size:24px;">{{vm.stateSelected.tax}}%</span>
                         <span class="help-block help-block-label">Selected state tax</span>
                     </div>
                     <div class="col-md-2 listItem" ng-show="!vm.stateSelected" style="padding-left:10px">
