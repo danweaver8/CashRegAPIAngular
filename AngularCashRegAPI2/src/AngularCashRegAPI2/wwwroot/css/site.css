@@ -65,6 +65,21 @@
     opacity: 0;
 }
 
+.Productshow {
+  position: relative;
+  height: 200px;
+  -webkit-transition: top linear .5s;
+  transition: top linear .5s;
+  top: 0;
+}
+.Productshow.ng-hide {
+  top: -200px;
+}
+.Productshow.ng-hide-add,
+.Productshow.ng-hide-remove {
+  display: block!important;
+}
+
 #btnAddProduct,
 #btnVoidLastTxn,
 #btnCancelSale,

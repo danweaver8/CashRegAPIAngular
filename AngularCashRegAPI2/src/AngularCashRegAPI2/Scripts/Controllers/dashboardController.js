@@ -44,7 +44,6 @@
             });
 
             vm.stateList = cashRegisterService.stateList;
-            vm.productSelectedName = "";
             vm.companyCity = cashRegisterService.companyCity;
             vm.companyName = cashRegisterService.companyName;
             vm.companyPhone = cashRegisterService.companyPhone;

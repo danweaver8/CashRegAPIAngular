@@ -10,5 +10,6 @@ namespace AngularCashRegAPI2.Models
         public string code { get; set; }
         public decimal price { get; set; }
         public string name { get; set; }
+        public string url { get; set; }
     }
 }

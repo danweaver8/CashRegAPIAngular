@@ -20,10 +20,12 @@
 <body ng-cloak>
     <div ng-controller="dashboardController as vm" class="container-fluid">
         <div class="panel panel-default">
-            <div class="panel-heading">
+            <div class="panel-heading" style="overflow:auto">
+                <div style="float:right"><img class="Productshow" style="height:200px" ng-src="{{vm.productSelected.url}}" ng-show="vm.productSelected" /></div>
                 <p class="panel-title total-amount">Total: {{vm.totalCost | currency}}</p>
                 <p class="panel-title item-display">Item: <span id="productSelectedName" class="totalCost"> {{vm.productSelected.name}}</span></p>
             </div>
+            
             <div class="panel-body">
                 <form name="cashRegister" class="form-horizontal">
                     <!-- Product Selector -->
@@ -33,7 +35,7 @@
                             <span class="help-block help-block-label">Category item</span>
                         </div>
                         <div class="col-md-3 product-inputs" style="padding-left:10px">
-                            <select name="productSelector" id="productSelector" ng-disabled="!vm.productList" ng-model=vm.productSelected class="form-control input-lg" type="text" ng-options="product.name for product in vm.productList"></select>
+                            <select name="productSelector" id="productSelector" ng-disabled="!vm.productList" ng-model=vm.productSelected class="form-control input-lg" type="text" data-ng-options="product.name for product in vm.productList"></select>
                             <span class="help-block help-block-label">Type item</span>
                         </div>
                         <div class="col-md-2 product-inputs">

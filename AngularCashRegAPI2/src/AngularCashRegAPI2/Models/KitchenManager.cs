@@ -9,9 +9,9 @@ namespace AngularCashRegAPI2.Models
     {
         readonly List<Product> _kitchenItems = new List<Product>()
         {
-             new Product  { code= "00016", price=10.00m, name="Mixing Spoon" },
-             new Product  { code= "00017", price=20.00m, name="Cutting Board" },
-             new Product  { code= "00018", price=15.00m, name="Utensil Holder" }
+             new Product  { code= "00016", price=10.00m, name="Mixing Spoon", url=string.Empty},
+             new Product  { code= "00017", price=20.00m, name="Cutting Board", url=string.Empty},
+             new Product  { code= "00018", price=15.00m, name="Utensil Holder", url=string.Empty}
         };
         public IEnumerable<Product> GetAll { get { return _kitchenItems; } }
 

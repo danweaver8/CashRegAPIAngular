@@ -10,10 +10,10 @@ namespace AngularCashRegAPI2.Models
 
         readonly List<Product> _groceryItems = new List<Product>()
         {
-             new Product  { code= "00001", price=2.00m, name="Oranges" },
-             new Product  { code= "00002", price=5.35m, name="Bananas" },
-             new Product  { code= "00003", price=1.05m, name="Mangos" },
-             new Product  { code= "00004", price=3.50m, name="Pretzels" }
+             new Product  { code= "00001", price=2.00m, name="Oranges", url=string.Empty},
+             new Product  { code= "00002", price=5.35m, name="Bananas", url=string.Empty},
+             new Product  { code= "00003", price=1.05m, name="Mangos", url=string.Empty},
+             new Product  { code= "00004", price=3.50m, name="Pretzels", url=string.Empty}
         };
         public IEnumerable<Product> GetAll { get { return _groceryItems; } }
 
